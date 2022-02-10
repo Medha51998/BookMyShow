@@ -1,0 +1,81 @@
+
+#%RAML 1.0 Library
+ 
+traits:
+  errorResp: !include ../Traits/errorResponseTraits.raml
+ 
+securitySchemes:
+  customSecurity: !include ../SecuritySchemes/securitySchems.raml
+ 
+resourceTypes:
+  movieCollection:
+    is: [errorResp]   
+    securedBy:
+      - customSecurity    
+    get:
+      description: This is used to fetch <<resourcePathName>>
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                <<getResponse>>
+    put:
+      description: This is used to fetch <<resourcePathName>>
+      body:
+       application/json:   
+          example: |
+             <<putBody>>
+      responses:
+        201:
+          body:
+            application/json:
+              example: 
+                value: movie changed but not really
+    delete:
+      description: This is used to fetch <<resourcePathName>>
+      responses:
+        201:
+          body:
+            application/json:
+              example: 
+                 message : "movie deleted but not really"
+  BookMoviescollection:
+    is: [errorResp]   
+    securedBy:
+      - customSecurity                         
+    post?:
+      description: This is used create <<resourcePathName>>
+      body:
+        application/json:   
+          examples:
+           input:
+               {
+          movie name: "ABC",
+          no_of_seats: 3}
+            
+      responses:
+        201:
+          body:
+            application/json:
+              example: |
+                movie booked
+      
+    patch: 
+       description: This is used to cancel order 
+       body:
+        application/json:   
+          examples:
+           input:
+               {
+                customer name: "annkk",
+          movie name: "ABC"
+         }
+            
+       responses:
+        201:
+          body:
+            application/json:
+              example: |
+                movie cancelled         
+                         

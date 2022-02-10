@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="implementation-suite.xml" />
+	<munit:test name="getMoviesByLanguage-test1" doc:id="e346ade5-9f5f-4458-8b22-d7673d611629" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock set city" doc:id="abdb3def-f888-49ec-a712-d1f7342fa59f" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="15978c54-5216-4789-8a45-0f349274308a" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[readUrl('classpath://getMoviesByLanguagetest1\mock_payload.dwl')]" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://getMoviesByLanguagetest1\mock_attributes.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getMoviesByLanguagetest1\mock_variable_.dwl')]" />
+						<munit-tools:variable key="city" value="#[output application/java --- readUrl('classpath://getMoviesByLanguagetest1\mock_variable_1.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="language" value="#[output application/java --- readUrl('classpath://getMoviesByLanguagetest1\mock_variable_2.dwl')]" mediaType="application/java" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="494a5632-2973-45f4-8687-8db05b37220a" >
+				<munit:payload value="#[readUrl('classpath://getMoviesByLanguagetest1\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://getMoviesByLanguagetest1\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://getMoviesByLanguagetest1\set-event_variable_.dwl')]" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to getMoviesByLanguage" doc:id="1c06035d-0b4e-4e71-a856-6f170d06414a" name="getMoviesByLanguage"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="9b0f222f-b2c1-4b0a-88d9-fd97dac4574c" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import getMoviesByLanguagetest1::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="getMoviesByLanguage-English" doc:id="a2b14d3c-9e0f-4ea3-90d2-c915fb8e5dea" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock set city" doc:id="711eae58-991e-4d60-b658-2d2f58c2c535" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="15978c54-5216-4789-8a45-0f349274308a" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[readUrl('classpath://getMoviesByLanguageEnglish\mock_payload.dwl')]" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://getMoviesByLanguageEnglish\mock_attributes.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getMoviesByLanguageEnglish\mock_variable_.dwl')]" />
+						<munit-tools:variable key="city" value="#[output application/java --- readUrl('classpath://getMoviesByLanguageEnglish\mock_variable_1.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="language" value="#[output application/java --- readUrl('classpath://getMoviesByLanguageEnglish\mock_variable_2.dwl')]" mediaType="application/java" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="d7b33ff4-36b6-4972-9101-4dc171858e02" >
+				<munit:payload value="#[readUrl('classpath://getMoviesByLanguageEnglish\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://getMoviesByLanguageEnglish\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://getMoviesByLanguageEnglish\set-event_variable_.dwl')]" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to getMoviesByLanguage" doc:id="832e3767-ef2c-4059-b2c1-dfb67f8434a0" name="getMoviesByLanguage"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="6455e702-2b72-4ba6-92b7-b006f66c768c" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import getMoviesByLanguageEnglish::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="getMoviesByLanguage-Marathi" doc:id="0c4452a3-f192-454c-a95f-c9969aefcd91" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock set city" doc:id="0ba53258-2bf4-49bc-a477-28c79a6817cd" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="15978c54-5216-4789-8a45-0f349274308a" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[readUrl('classpath://getMoviesByLanguageMarathi\mock_payload.dwl')]" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://getMoviesByLanguageMarathi\mock_attributes.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getMoviesByLanguageMarathi\mock_variable_.dwl')]" />
+						<munit-tools:variable key="city" value="#[output application/java --- readUrl('classpath://getMoviesByLanguageMarathi\mock_variable_1.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="language" value="#[output application/java --- readUrl('classpath://getMoviesByLanguageMarathi\mock_variable_2.dwl')]" mediaType="application/java" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="7f3b6e65-bbfe-4d36-9aac-cb292e92a90b" >
+				<munit:payload value="#[readUrl('classpath://getMoviesByLanguageMarathi\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://getMoviesByLanguageMarathi\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://getMoviesByLanguageMarathi\set-event_variable_.dwl')]" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to getMoviesByLanguage" doc:id="244f7680-fed8-4b81-8154-a17642fa8345" name="getMoviesByLanguage"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="d07dca8d-2ace-4e9c-bc2c-0cf8bd8f4fbd" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import getMoviesByLanguageMarathi::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>	
+	
+	
+	
+	
+	
+	
+	<munit:test name="getMoviesByLanguage-allmovies" doc:id="4293634b-af26-4fa2-89f9-eeb0b1416882" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock Flow Reference" doc:id="2a1351f8-dee0-42d4-91b0-52d1093e8df4" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="21b39671-98eb-48bf-9f33-3646f6f07db2" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://getMoviesByLanguageallmovies\mock_payload.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getMoviesByLanguageallmovies\mock_variable_.dwl')]" />
+						<munit-tools:variable key="city" value="#[output application/java --- readUrl('classpath://getMoviesByLanguageallmovies\mock_variable_1.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="language" value="#[output application/java --- readUrl('classpath://getMoviesByLanguageallmovies\mock_variable_2.dwl')]" mediaType="application/java" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="5104b959-2214-43f8-b6ed-c20bd3530d60" >
+				<munit:payload value="#[readUrl('classpath://getMoviesByLanguageallmovies\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://getMoviesByLanguageallmovies\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://getMoviesByLanguageallmovies\set-event_variable_.dwl')]" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to getMoviesByLanguage" doc:id="f7ce46b1-0c7b-49c8-832e-acd7b1fb3d34" name="getMoviesByLanguage"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="053d04b3-5b8f-4c68-b941-7d32e062887e" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import getMoviesByLanguageallmovies::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="getMoviesByLanguage-defaultnomovie" doc:id="b6169a28-e278-4f95-8666-c6505690eb70" >
+		<munit:behavior >
+			<munit:set-event doc:name="Set Input" doc:id="851da847-781f-4fc3-86b5-d09c0d911649" >
+				<munit:payload value="#[readUrl('classpath://getMoviesByLanguagedefaultnomovie\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://getMoviesByLanguagedefaultnomovie\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://getMoviesByLanguagedefaultnomovie\set-event_variable_.dwl')]" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to getMoviesByLanguage" doc:id="c014862d-e24b-4c19-a12b-ef90cd6e24aa" name="getMoviesByLanguage"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="ea73b0d9-bdeb-48f4-a8e4-4377d7bb1b88" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import getMoviesByLanguagedefaultnomovie::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="getMoviesByLanguage-choice" doc:id="e5fd95ea-493a-417b-b730-9adc6869d48a" >
+		<munit:behavior >
+			<munit:set-event doc:name="Set Input" doc:id="1e7aa392-4171-4741-b2ea-46aa3899866a" >
+				<munit:payload value="#[readUrl('classpath://getMoviesByLanguagechoice\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://getMoviesByLanguagechoice\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://getMoviesByLanguagechoice\set-event_variable_.dwl')]" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to getMoviesByLanguage" doc:id="f393e239-e7da-482e-a17e-1be7331337ed" name="getMoviesByLanguage"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="d49a3092-273f-40cc-831e-83c53f61fece" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import getMoviesByLanguagechoice::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="cancelMovieorder-cancelbooking" doc:id="4a3fdcac-8e47-43bd-bcc1-cf0e48777d9f" >
+		<munit:behavior >
+			<munit:set-event doc:name="Set Input" doc:id="c062b176-c4dc-45f2-958a-1ade987b98be" >
+				<munit:payload value="#[output application/json --- readUrl('classpath://cancelMovieordercancelbooking\set-event_payload.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				<munit:attributes value="#[readUrl('classpath://cancelMovieordercancelbooking\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://cancelMovieordercancelbooking\set-event_variable_.dwl')]" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to cancelMovieorder" doc:id="7c2b9262-840d-4ce0-9b31-3b7fc520898e" name="cancelMovieorder"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="63f2b507-c0e8-4c81-9971-200c4a71c5b8" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import cancelMovieordercancelbooking::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="setCity-test" doc:id="51608134-f830-46aa-bbe8-afc8e26ec9cd" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock Set city" doc:id="bdcbf1ce-5df9-4687-be65-cbb8c492be57" processor="set-variable">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="3edae5d1-35c7-4120-b1e6-ea8bbf41c12d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://setCitytest\mock_variable_.dwl')]" />
+						<munit-tools:variable key="city" value="#[output application/java --- readUrl('classpath://setCitytest\mock_variable_1.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="language" value="#[output application/java --- readUrl('classpath://setCitytest\mock_variable_2.dwl')]" mediaType="application/java" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="661857e5-9458-4439-82eb-f33169752f17" >
+				<munit:payload value="#[readUrl('classpath://setCitytest\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://setCitytest\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://setCitytest\set-event_variable_.dwl')]" />
+					<munit:variable key="language" value="#[output application/java --- readUrl('classpath://setCitytest\set-event_variable_1.dwl')]" encoding="UTF-8" mediaType="application/java" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to setCity" doc:id="efae2dfd-dda2-4e60-8a62-4369ce9148a1" name="setCity"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="98369de3-51ba-4fb1-900e-7e750c0e01f1" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import setCitytest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="postMovies-test" doc:id="7db5ebf8-5e60-4431-823e-b76fe199e4df" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock Logger" doc:id="ceab07a8-e939-4a04-89d8-b8b16f959eed" processor="json-logger:logger">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="ec01e87f-a5e5-4eb0-9e88-6285e17df092" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://postMoviestest\mock_payload.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://postMoviestest\mock_attributes.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://postMoviestest\mock_variable_.dwl')]" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="9592e8fe-7c89-4378-b4e6-e8de20c94db1" >
+				<munit:payload value="#[output application/json --- readUrl('classpath://postMoviestest\set-event_payload.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				<munit:attributes value="#[readUrl('classpath://postMoviestest\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://postMoviestest\set-event_variable_.dwl')]" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to postMovies" doc:id="67c37e87-c972-4de8-8c82-6d0bc86c84e7" name="postMovies"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="f2f4ebe9-b90a-454b-8fd5-52d64146fedb" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import postMoviestest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="getMoviesByLanguage-HindiError" doc:id="c3fcf80e-8a13-4426-94ee-fabea030148b">
+		<munit:behavior>
+			<munit-tools:mock-when doc:name="Mock set city" doc:id="80f2d6ef-0e64-4e79-a090-143f964b3e3f" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="a4511a12-a034-4ae0-a718-d0c2c7c91f9c" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:TIMEOUT" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getMoviesByLanguageMarathi\mock_variable_.dwl')]" />
+						<munit-tools:variable key="city" value="#[output application/java --- readUrl('classpath://getMoviesByLanguageMarathi\mock_variable_1.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="language" value="#[output application/java --- readUrl('classpath://getMoviesByLanguageMarathi\mock_variable_2.dwl')]" mediaType="application/java" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<flow-ref doc:name="Flow-ref to getMoviesByLanguage" doc:id="7a5803c0-c54d-43d9-9977-e960a57c5234" name="hindiMovies" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="c38c9fab-b486-4fd7-be43-641255640ee7" is="#[MunitTools::notNullValue()]" expression="#[payload]"/>
+
+		</munit:validation>
+	
+</munit:test>
+
+<munit:test name="getMoviesByLanguage-EnglishError" doc:id="9830b222-c18b-495e-978f-8bf3eb2af98e">
+		<munit:behavior>
+			<munit-tools:mock-when doc:name="Mock set city" doc:id="f506f7b7-2faa-4dfc-b411-4bddf990e5b7" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="fe75f447-2aea-4942-b57d-1e7dff01ecb4" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:TIMEOUT" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getMoviesByLanguageMarathi\mock_variable_.dwl')]" />
+						<munit-tools:variable key="city" value="#[output application/java --- readUrl('classpath://getMoviesByLanguageMarathi\mock_variable_1.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="language" value="#[output application/java --- readUrl('classpath://getMoviesByLanguageMarathi\mock_variable_2.dwl')]" mediaType="application/java" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<flow-ref doc:name="Flow-ref to getMoviesByLanguage" doc:id="c295e276-accb-4984-9e7a-bc196390814c" name="englishMovies" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="1ef3076f-34ad-4546-9560-3e2fc7eff969" is="#[MunitTools::notNullValue()]" expression="#[payload]"/>
+
+		</munit:validation>
+	
+</munit:test>
+
+<munit:test name="getMoviesByLanguage-MarathiError" doc:id="63be8a89-63c3-4bfb-8aab-172db3e0aa0d">
+		<munit:behavior>
+			<munit-tools:mock-when doc:name="Mock set city" doc:id="efd1f34e-f84b-49f2-b954-68ede969291d" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="64e13bfc-028f-4a9a-b4c7-49fddf956f4e" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:TIMEOUT" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getMoviesByLanguageMarathi\mock_variable_.dwl')]" />
+						<munit-tools:variable key="city" value="#[output application/java --- readUrl('classpath://getMoviesByLanguageMarathi\mock_variable_1.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="language" value="#[output application/java --- readUrl('classpath://getMoviesByLanguageMarathi\mock_variable_2.dwl')]" mediaType="application/java" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<flow-ref doc:name="Flow-ref to getMoviesByLanguage" doc:id="0089cd76-73ac-4fe5-9973-8bc87b126af9" name="marathiMovies" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="d24023eb-1af7-44a9-aaf3-079c5f14346d" is="#[MunitTools::notNullValue()]" expression="#[payload]"/>
+
+		</munit:validation>
+	
+</munit:test>
+
+</mule>

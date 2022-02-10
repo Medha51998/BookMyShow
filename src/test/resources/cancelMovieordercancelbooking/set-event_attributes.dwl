@@ -1,0 +1,30 @@
+{
+  "headers": {
+    "client_id": "ewq",
+    "client_secret": "dsd",
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.29.0",
+    "accept": "*/*",
+    "postman-token": "d84f4a74-1d1a-41e8-b360-0cf671a8d17f",
+    "host": "localhost:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "100"
+  },
+  "clientCertificate": null,
+  "method": "PATCH",
+  "scheme": "http",
+  "queryParams": {},
+  "requestUri": "/api/order",
+  "queryString": "",
+  "version": "HTTP/1.1",
+  "maskedRequestPath": "/order",
+  "listenerPath": "/api/*",
+  "localAddress": "/127.0.0.1:8082",
+  "relativePath": "/api/order",
+  "uriParams": {},
+  "rawRequestUri": "/api/order",
+  "rawRequestPath": "/api/order",
+  "remoteAddress": "/127.0.0.1:64530",
+  "requestPath": "/api/order"
+}

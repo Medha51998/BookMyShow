@@ -1,0 +1,43 @@
+[{
+	"city" : "Pune",
+    "name": "DDLJ",
+    "Actor" : "Shahruk Khan",
+    "Actress" : "Kajol",
+    "Price" : 1000,
+    "showDate" : "1 Feb 2022  Thursday"
+      },
+	 
+    {
+	"city" : "Mumbai",
+	"name": "Jab we Met",
+    "Actor" : "Shahid Kapoor",
+    "Actress" : "Kareena Kapoor Khan",
+    "Price" : 1000,
+    "showDate" : "25 Feb 2022  Monday"
+     },
+    {
+	"city" : "Chennai",
+    "name": "Kite",
+    "Actor" : "Hrithik Roshan",
+    "Actress" : "Aishwarya Rai",
+    "Price" : 1000,
+    "showDate" : "5 Feb 2022  Monday"
+  },
+    {
+	"city" : "Bengaluru",
+    "name": "Kabhi Khushi Kabhi Gum",
+    "Actor" : "Amitabh Bachhan",
+    "Actress" : "Kajol",
+    "Price" : 1000,
+    "showDate" : "11 Feb 2022  Tuesay"
+    }
+  ]
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,53 @@
+#%RAML 1.0
+title: Book my show RESTful API
+description: This is for booking movies and order management
+protocols: [HTTPS, HTTP]
+mediaType: 
+  - application/json
+  - application/xml
+version: v1
+
+uses:
+  movieresource: Resource/resourceTypes.raml
+  movie_e_ticket: exchange_modules/5211b8bb-7444-4f58-9f0c-d8f10e9eb8d3/movie_e_ticket_datatype/1.0.0/movie_e_ticket_datatype.raml
+
+/movies:
+  type:
+    movieresource.movieCollection:
+      getResponse: !include Examples/All_movies.raml
+      putBody: !include Examples/add_movie.raml
+  get:
+    queryParameters:
+      language:
+        required: false
+        examples:
+          int: "Hindi"
+      city:
+        required: false
+        examples:
+          int: "Pune"
+         
+         
+  put:
+  delete:
+/order:
+  type:
+    movieresource.BookMoviescollection:
+      
+  post:
+  patch:
+    
+
+
+  
+   
+   
+    
+
+        
+
+
+  
+  
+          
+            

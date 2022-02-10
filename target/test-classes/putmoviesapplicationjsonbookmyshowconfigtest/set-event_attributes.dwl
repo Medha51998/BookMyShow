@@ -1,0 +1,30 @@
+{
+  "headers": {
+    "client_id": "ewq",
+    "client_secret": "dsd",
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.29.0",
+    "accept": "*/*",
+    "postman-token": "8468559c-de94-4d14-9100-1227704af56a",
+    "host": "localhost:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "96"
+  },
+  "clientCertificate": null,
+  "method": "PUT",
+  "scheme": "http",
+  "queryParams": {},
+  "requestUri": "/api/movies",
+  "queryString": "",
+  "version": "HTTP/1.1",
+  "maskedRequestPath": "/movies",
+  "listenerPath": "/api/*",
+  "relativePath": "/api/movies",
+  "localAddress": "/127.0.0.1:8082",
+  "uriParams": {},
+  "rawRequestUri": "/api/movies",
+  "rawRequestPath": "/api/movies",
+  "remoteAddress": "/127.0.0.1:59359",
+  "requestPath": "/api/movies"
+}

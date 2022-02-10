@@ -1,0 +1,10 @@
+#%RAML 1.0 SecurityScheme
+type: x-auth
+ 
+describedBy:
+  headers:
+    client_id:
+    client_secret:
+  responses:
+    401:
+      description: "Unauthorized Access"

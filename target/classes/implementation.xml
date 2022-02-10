@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:hindimovies="http://www.mulesoft.org/schema/mule/hindimovies" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger" xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" xmlns:marathi-movies="http://www.mulesoft.org/schema/mule/marathi-movies" xmlns:english-marathi-movies="http://www.mulesoft.org/schema/mule/english-marathi-movies" xmlns:get-hindi-movies="http://www.mulesoft.org/schema/mule/get-hindi-movies" xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
+http://www.mulesoft.org/schema/mule/get-hindi-movies http://www.mulesoft.org/schema/mule/get-hindi-movies/current/mule-get-hindi-movies.xsd
+http://www.mulesoft.org/schema/mule/english-marathi-movies http://www.mulesoft.org/schema/mule/english-marathi-movies/current/mule-english-marathi-movies.xsd
+http://www.mulesoft.org/schema/mule/marathi-movies http://www.mulesoft.org/schema/mule/marathi-movies/current/mule-marathi-movies.xsd
+http://www.mulesoft.org/schema/mule/wsc http://www.mulesoft.org/schema/mule/wsc/current/mule-wsc.xsd
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/hindimovies http://www.mulesoft.org/schema/mule/hindimovies/current/mule-hindimovies.xsd">
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="d51af4fc-4888-45be-9a1c-207ba74a62a7" basePath="/api" >
+		<http:request-connection host="hindimoviesnew.us-e2.cloudhub.io" port="80" />
+	</http:request-config>
+	<http:request-config name="HTTP_Request_configuration1" doc:name="HTTP Request configuration" doc:id="2855510f-fb1c-412f-8efe-3b3b60d66359" basePath="/api" >
+		<http:request-connection host="englishmoviesnew.us-e2.cloudhub.io" port="80" />
+	</http:request-config>
+	<http:request-config name="HTTP_Request_configuration2" doc:name="HTTP Request configuration" doc:id="92a52b69-ea20-4cb9-a383-6bf13bf8330e" basePath="/api" >
+		<http:request-connection host="marathimoviesnew.us-e2.cloudhub.io" port="80" />
+	</http:request-config>
+	<flow name="getMoviesByLanguage" doc:id="f4d6cd39-9cff-49af-9fc3-1d60cd33d0e7" >
+		<set-variable value='#[message.attributes.queryParams.language]' doc:name="language" doc:id="046ac910-71d2-4992-bc35-105c20403402" variableName="language"/>
+		<flow-ref doc:name="set city" doc:id="15978c54-5216-4789-8a45-0f349274308a" name="setCity"/>
+		<validation:is-true doc:name="Is true" doc:id="2ca448ba-9411-41be-bbb8-192b199c913b" expression="#[['Bengaluru','Delhi','Mumbai','Pune','Chennai'] contains vars.city]" message="#['Invalid City' ++ ' ' ++ (vars.city default ' ')]">
+			<error-mapping sourceType="VALIDATION:INVALID_BOOLEAN" targetType="APP:INVALID_CITY" />
+		</validation:is-true>
+		<choice doc:name="Choice" doc:id="dd4dfe1b-e65f-4e5d-8038-91bfd16d64bb" >
+			<when expression="#[vars.language != null]">
+				<choice doc:name="Choice" doc:id="f9d5ba51-3ac0-4a14-ba3c-70b754878b49">
+			<when expression="#[vars.language == 'Hindi']">
+				<flow-ref doc:name="Flow Reference" doc:id="ab795f19-23b2-4e30-bd04-f98eb3724c12" name="hindiMovies" />
+			</when>
+			<when expression="#[vars.language =='English']">
+				<flow-ref doc:name="Flow Reference" doc:id="d215c6fb-0eeb-4192-968f-8eb179960427" name="englishMovies" />
+			</when>
+			<when expression="#[vars.language =='Marathi']">
+				<flow-ref doc:name="Flow Reference" doc:id="ddb7de2b-2981-422f-a77f-ca482034f58b" name="marathiMovies" />
+			</when>
+					<otherwise>
+						<ee:transform doc:name="Transform Message" doc:id="dfe0acdd-9e2a-44b8-9cbb-9313996d9475" >
+							<ee:message >
+								<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{ message: "invalid Language"
+}]]></ee:set-payload>
+							</ee:message>
+						</ee:transform>
+			</otherwise>
+		</choice>
+			</when>
+			<otherwise >
+				<flow-ref doc:name="Flow Reference" doc:id="21b39671-98eb-48bf-9f33-3646f6f07db2" name="getAllMovies"/>
+			</otherwise>
+		</choice>
+		<ee:transform doc:name="Transform Message" doc:id="d517dd0f-9706-4e0c-ac44-41cc515485a8" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+
+---
+payload
+
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Request Returned" doc:id="f8a1179b-d430-4b00-8a8c-ec77c875d8fa" message='#["Movie Response Returned"]'/>
+	</flow>
+	<flow name="setCity" doc:id="089c3a0a-a7c8-4138-98f1-0bac13e8ae4e" >
+		<set-variable value="#[message.attributes.queryParams.city]" doc:name="Set city" doc:id="3edae5d1-35c7-4120-b1e6-ea8bbf41c12d" variableName="city"/>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="f655b5da-9d3b-4d63-a260-991d8cc12f7c" type="ANY">
+				<set-payload value="invalid city name" doc:name="Set Payload" doc:id="9501cc94-9c31-4d26-bc86-a5d4544c6234" />
+			</on-error-continue>
+		</error-handler>
+	</flow>
+	<flow name="hindiMovies" doc:id="906e10f2-5652-4a8f-8d6d-9b09cad36422" >
+		<http:request method="GET" doc:name="Request" doc:id="a4511a12-a034-4ae0-a718-d0c2c7c91f9c" config-ref="HTTP_Request_configuration" path="/hindi">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"client_secret" : "7143fc51f2504b7a869aca6b34538faa",
+	"client_id" : "194683c9FF804256B67B87B510e7f87C"
+}]]]></http:headers>
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	city : vars.city,
+	language : vars.language default "Hindi"
+}]]]></http:query-params>
+		</http:request>
+		<ee:transform doc:name="Transform Message" doc:id="7858e1cc-2ce3-4cc1-9717-8237d1898e81" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+fun match(city: String)=
+if ( payload.Pune[0].city[0] == vars.city ) payload.Pune
+else if ( payload.Mumbai[0].city[0] == vars.city ) payload.Mumbai
+else if ( payload.Chennai[0].city[0] == vars.city ) payload.Chennai
+else if ( payload.Bengaluru[0].city[0] == vars.city ) payload.Bengaluru
+else
+{message:" Sorry no movies in " ++ (vars.city default '')}
+---
+match((vars.city default ''))
+]]></ee:set-payload>
+			</ee:message>
+			<ee:variables />
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="02bb1f02-899c-4aeb-8b73-f673b1576e5c" message='#["message" : "Hindi Movies returned as response"]'/>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="ec74fc58-1694-4f08-a288-1426d916523a" type="HTTP:TIMEOUT">
+				<ee:transform doc:name="Transform Message" doc:id="98efcf36-b47d-4b4b-ae6f-cc219fb383e2" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message" :"No movies in " ++ (vars.city default '')
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<set-variable value="200" doc:name="Set Variable" doc:id="e3b2b9c2-ea18-4c85-9299-b8cbd8b4d94a" variableName="httpsStatus"/>
+			</on-error-continue>
+		</error-handler>
+	</flow>
+	<flow name="englishMovies" doc:id="aeba3182-1c30-4bfb-a1be-cbe7f8c89f0c" >
+		<http:request method="GET" doc:name="Request" doc:id="fe75f447-2aea-4942-b57d-1e7dff01ecb4" path="/english" config-ref="HTTP_Request_configuration1">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	client_secret : "194683c9FF804256B67B87B510e7f87C",
+	client_id : "7143fc51f2504b7a869aca6b34538faa"
+}]]]></http:headers>
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	city : vars.city,
+	language : vars.language default "English"
+}]]]></http:query-params>
+		</http:request>
+		<ee:transform doc:name="Transform Message" doc:id="dfcb6f98-5fdd-4d6b-bbd8-b3040902a953" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+fun match(city: String)=
+if ( payload.Pune[0].city[0] == vars.city ) payload.Pune
+else if ( payload.Mumbai[0].city[0] == vars.city ) payload.Mumbai
+else if ( payload.Chennai[0].city[0] == vars.city ) payload.Chennai
+else if ( payload.Bengaluru[0].city[0] == vars.city ) payload.Bengaluru
+else
+{message:" sorry no movies " ++ (vars.city default '')}
+
+---
+match((vars.city default ''))
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="706b111c-b8ec-487e-8486-4dbe57d56475" message='#["message" : "English Movies returned as response"]'/>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="609f7f10-87c3-40f5-b912-5cbc78ae55c1" type="HTTP:TIMEOUT">
+				<ee:transform doc:name="Transform Message" doc:id="559be1ad-bfef-4ff2-8bee-2f16d356a554">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message" :"No movies in " ++ (vars.city default '')
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<set-variable value="200" doc:name="Set Variable" doc:id="891f6b9c-f6a9-4868-bfe3-3463376f3683" variableName="httpsStatus" />
+			</on-error-continue>
+		</error-handler>
+	</flow>
+	<flow name="marathiMovies" doc:id="e80feed4-a0ec-49e3-a774-27e07b1eb1c8" >
+		<http:request method="GET" doc:name="Request" doc:id="64e13bfc-028f-4a9a-b4c7-49fddf956f4e" config-ref="HTTP_Request_configuration2" path="/marathi">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	client_secret : "194683c9FF804256B67B87B510e7f87C",
+	client_id : "7143fc51f2504b7a869aca6b34538faa"
+}]]]></http:headers>
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	city : vars.city,
+	language : vars.language default "Marathi"
+}]]]></http:query-params>
+		</http:request>
+		<ee:transform doc:name="Transform Message" doc:id="906ab2c1-e45b-4dce-93f1-33aed7aad69b" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+fun match(city: String)=
+if ( payload.Pune[0].city[0] == vars.city ) payload.Pune
+else if ( payload.Mumbai[0].city[0] == vars.city ) payload.Mumbai
+else if ( payload.Chennai[0].city[0] == vars.city ) payload.Chennai
+else if ( payload.Bengaluru[0].city[0] == vars.city ) payload.Bengaluru
+else
+{message:" Hi " ++ (vars.city default '')}
+---
+match((vars.city default ''))
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="a0faac76-4523-492d-af89-34e0ed8c7d3b" message='#["message" : "Marathi Movies returned as response"]'/>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="db1c1e18-bc56-47dd-b813-ee74afd39fd7" type="HTTP:TIMEOUT">
+				<ee:transform doc:name="Transform Message" doc:id="e7ef5402-9b3f-4a7c-8550-1db5a27e026d" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message": "No movies in " ++ vars.city as String
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<set-variable value="200" doc:name="Set Variable" doc:id="69a8dbc2-3c4d-498a-9b6d-f1737480c616" variableName="httpsStatus"/>
+			</on-error-continue>
+		</error-handler>
+	</flow>
+	<flow name="getAllMovies" doc:id="79ace1e3-e74c-4adf-ba08-6ec498e8846c" >
+		<scatter-gather doc:name="Scatter-Gather" doc:id="23aae16e-5260-4f53-aade-86448535704c" >
+			<route >
+				<try doc:name="Try" doc:id="1f0727b7-10cf-4622-a6ea-a9c504f67b55" >
+					<flow-ref doc:name="Flow Reference" doc:id="6ed75ab2-6754-4803-bdf1-5d117dc582c7" name="hindiMovies"/>
+					<error-handler >
+						<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="b8fb967e-ef55-4a26-8f9c-bbaa1788ef6f" >
+							<ee:transform doc:name="Transform Message" doc:id="0b8728d5-d248-4599-9cbd-3b0a1dff7efd" >
+								<ee:message >
+									<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+[]]]></ee:set-payload>
+								</ee:message>
+							</ee:transform>
+						</on-error-continue>
+					</error-handler>
+				</try>
+			</route>
+			<route >
+				<try doc:name="Try" doc:id="0c413fc5-a8e9-483b-8ecc-4c6034b92a90" >
+					<flow-ref doc:name="Flow Reference" doc:id="a752d7c5-9262-4af6-a755-6024ef601f5e" name="englishMovies"/>
+					<error-handler >
+						<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="c9465c1e-d37f-4f3d-b19d-b6bf2cb4cdc9" >
+							<ee:transform doc:name="Transform Message" doc:id="74fe76b8-1f24-4d0e-a1af-dea0f6cb6545" >
+								<ee:message >
+									<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+[]]]></ee:set-payload>
+								</ee:message>
+							</ee:transform>
+						</on-error-continue>
+					</error-handler>
+				</try>
+			</route>
+			<route >
+				<try doc:name="Try" doc:id="c65bde1d-f7ab-4fde-aa4c-71d153eb99f8" >
+					<flow-ref doc:name="Flow Reference" doc:id="4269c3cd-8fb5-402f-a17f-3f954f058c05" name="marathiMovies"/>
+					<error-handler >
+						<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="7b0fda18-fd9a-4df9-93e8-901825d8fcbb" >
+							<ee:transform doc:name="Transform Message" doc:id="14749cdc-f60c-4781-a826-0333d2fc742e" >
+								<ee:message >
+									<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+[]]]></ee:set-payload>
+								</ee:message>
+							</ee:transform>
+						</on-error-continue>
+					</error-handler>
+				</try>
+			</route>
+		</scatter-gather>
+		<ee:transform doc:name="Transform Message" doc:id="0ebdba98-fef3-4364-b5c1-b232550d1449" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+flatten(payload..payload)]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="f11f75d7-90f3-45d6-827f-b07bf611e8b0" message="#[payload]"/>
+	</flow>
+	<flow name="postMovies" doc:id="e1818f64-0a1e-4a95-babb-2bf2d859cfa8" >
+		<ee:transform doc:name="Transform Message" doc:id="b8e67d4d-e1a1-4b74-a17b-ef49117c9909" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="cancelMovieorder" doc:id="c418ed4b-937a-4a75-ab08-6e2df8b50fd1" >
+		<ee:transform doc:name="Transform Message" doc:id="cd86aed6-5dd3-45b0-adf6-77c71ff0d73c">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/xml
+ns ns0 http://learnwebservices.com/services/hello
+---
+{
+	ns0#SayHello: {
+		ns0#HelloRequest: {
+			ns0#Name: payload.CustomerName ++ ", your ticket for " ++ payload.MovieName ++ " movie is cancelled"
+		}
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<wsc:consume doc:name="Consume" doc:id="ff4b1876-cadb-4043-bceb-f65a425b4f01" operation="SayHello" config-ref="Web_Service_Consumer_Config1"/>
+		<ee:transform doc:name="Transform Message" doc:id="6a3ae12a-0f30-4153-a15a-8b7c2835093d">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+ns ns0 http://learnwebservices.com/services/hello
+
+output application/json
+---
+payload.body.ns0#SayHelloResponse.ns0#HelloResponse]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

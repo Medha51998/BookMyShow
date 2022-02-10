@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
+	xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger" xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc"
+	xmlns:english-marathi-movies="http://www.mulesoft.org/schema/mule/english-marathi-movies"
+	xmlns:marathi-movies="http://www.mulesoft.org/schema/mule/marathi-movies" xmlns:get-hindi-movies="http://www.mulesoft.org/schema/mule/get-hindi-movies" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/get-hindi-movies http://www.mulesoft.org/schema/mule/get-hindi-movies/current/mule-get-hindi-movies.xsd
+http://www.mulesoft.org/schema/mule/marathi-movies http://www.mulesoft.org/schema/mule/marathi-movies/current/mule-marathi-movies.xsd
+http://www.mulesoft.org/schema/mule/english-marathi-movies http://www.mulesoft.org/schema/mule/english-marathi-movies/current/mule-english-marathi-movies.xsd
+http://www.mulesoft.org/schema/mule/wsc http://www.mulesoft.org/schema/mule/wsc/current/mule-wsc.xsd
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd">
+	<configuration-properties doc:name="Configuration properties" doc:id="6569cf56-3599-4626-8513-6f1f4efb1430" file="config.yaml" />
+	<wsc:config name="Web_Service_Consumer_Config1" doc:name="Web Service Consumer Config" doc:id="9f14be53-cc5e-4495-a1d0-53c61417085c" >
+		<wsc:connection wsdlLocation="${wsdl.location}" service="${wsdl.service}" port="${wsdl.port}" address="${wsdl.address}"/>
+	</wsc:config>
+	<configuration doc:name="Configuration" doc:id="571baf68-9516-44cb-aeee-bbd0ba07f75f" defaultErrorHandler-ref="globalError_Handler" />
+	<api-gateway:autodiscovery apiId="17622092" ignoreBasePath="false" doc:name="API Autodiscovery" doc:id="60e3c30c-6cc9-4847-9344-3280e804f1bf" flowRef="book_my_show-main" />
+	<error-handler name="globalError_Handler" doc:id="bc1faec8-5ca8-4209-a179-2a16a442e54d" >
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="01f42340-0f82-4d41-b794-036079ebaaf9" type="APP:INVALID_CITY">
+			<ee:transform doc:name="Transform Message" doc:id="3eb772ac-2cd1-4e58-adc7-45e400b0bcd5" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: "invalid city"
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+		</on-error-continue>
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="7737081b-0dc2-4818-b6fe-47d22eddf67d" type="WSC:CONNECTIVITY, WSC:INVALID_WSDL">
+			<ee:transform doc:name="Transform Message" doc:id="66c9015a-47e2-478b-aa04-9338e4d699a3" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message": "Data unavailable. Try later. " ++ error.description as String
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="500" doc:name="Set Variable" doc:id="ac206351-4dbf-4ef9-89e0-fb80425f4d20" variableName="httpStatus"/>
+		</on-error-continue>
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="ea273ca1-d1ce-48db-b187-43d372b9dbaa" type="ANY">
+			<ee:transform doc:name="Transform Message" doc:id="3901aef2-5149-44e4-9e27-7ca911b55c98" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	"message": error.description
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="500" doc:name="Set Variable" doc:id="2239388f-7df7-44a3-8af6-703d12cc5b43" variableName="httpStatus"/>
+		</on-error-continue>
+	</error-handler>
+
+
+</mule>

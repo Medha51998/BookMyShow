@@ -1,0 +1,36 @@
+http:
+  port: '8082'
+
+hindi:
+  host: "hindimoviesnew.us-e2.cloudhub.io"
+  port: "80"
+  basepath: "/api"
+  protocol: "HTTP"
+  client_id: '7143fc51f2504b7a869aca6b34538faa'
+  client_secret: '194683c9FF804256B67B87B510e7f87C'
+  
+  
+
+english:
+  host: "englishmoviesnew.us-e2.cloudhub.io"
+  port: "80"
+  basepath: "/api"
+  protocol: "HTTP"
+  client_id: '7143fc51f2504b7a869aca6b34538faa'
+  client_secret: '194683c9FF804256B67B87B510e7f87C'
+  
+  
+marathi:
+  host: " marathimoviesnew.us-e2.cloudhub.io"
+  port: "80"
+  basepath: "/api"
+  protocol: "HTTP"
+  client_id: '7143fc51f2504b7a869aca6b34538faa'
+  client_secret: '194683c9FF804256B67B87B510e7f87C'
+  
+wsdl:
+  location: "soap-api.wsdl"
+  service: "HelloEndpointService"
+  port: "HelloEndpointPort"
+  address: "https://www.learnwebservices.com/services/hello"
+    
