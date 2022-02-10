@@ -78,6 +78,7 @@
 							<ignoreFlow>book_my_show-main</ignoreFlow>
 						</ignoreFlows>
 					</coverage>
+					<runtimeVersion>4.3.0-20210622</runtimeVersion>
 				</configuration>
 			</plugin>
 		</plugins>
