@@ -41,7 +41,6 @@
 						<applicationName>${applicationName}</applicationName>
 						<businessGroup>${businessGroup}</businessGroup>
 						<workerType>${workerType}</workerType>
-						<region>${region}</region>
 						<workers>${workers}</workers>
 						<objectStoreV2>true</objectStoreV2>
 					</cloudHubDeployment>
